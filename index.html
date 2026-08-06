@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بلال بولقرون | Bilal Boulegroun</title>
+    <!-- خطوط جوجل: Cairo للعربية و Poppins للإنجليزية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --text-main: #1f2937;
+            --text-light: #4b5563;
+            --accent-color: #2563eb; /* أزرق احترافي */
+            --sidebar-bg: #111827;
+            --sidebar-text: #f9fafb;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* إعدادات الخطوط حسب اللغة */
+        html[dir="rtl"] * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        html[dir="ltr"] * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* إخفاء وإظهار النصوص حسب اتجاه الصفحة */
+        html[dir="rtl"] .en { display: none !important; }
+        html[dir="ltr"] .ar { display: none !important; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            transition: all 0.3s ease;
+        }
+
+        /* زر تغيير اللغة */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            z-index: 1000;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        /* تحديد مكان الزر حسب اللغة */
+        html[dir="rtl"] .lang-toggle { left: 20px; }
+        html[dir="ltr"] .lang-toggle { right: 20px; }
+
+        .lang-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* تخطيط الصفحة */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        @media (min-width: 992px) {
+            .layout { flex-direction: row; }
+            html[dir="rtl"] .sidebar { right: 0; }
+            html[dir="ltr"] .sidebar { left: 0; }
+            
+            html[dir="rtl"] .main-content { margin-right: 35%; margin-left: 0; }
+            html[dir="ltr"] .main-content { margin-left: 35%; margin-right: 0; }
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        @media (min-width: 992px) {
+            .sidebar {
+                width: 35%;
+                position: fixed;
+                height: 100vh;
+                top: 0;
+            }
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--sidebar-text);
+            border: 4px solid var(--accent-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--sidebar-bg);
+            font-weight: 800;
+        }
+
+        .sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            color: #93c5fd;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: start;
+        }
+
+        .contact-item {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            padding: 4rem 1.5rem;
+            flex: 1;
+        }
+
+        @media (min-width: 992px) {
+            .main-content { padding: 5rem 4rem; }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            width: 50%;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        
+        html[dir="rtl"] .section-title::after { right: 0; }
+        html[dir="ltr"] .section-title::after { left: 0; }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+
+        .text-block {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        /* الخط الزمني */
+        .timeline {
+            position: relative;
+            margin-top: 2rem;
+        }
+        
+        html[dir="rtl"] .timeline { border-right: 2px solid #e5e7eb; padding-right: 2rem; }
+        html[dir="ltr"] .timeline { border-left: 2px solid #e5e7eb; padding-left: 2rem; }
+
+        .timeline-item { position: relative; margin-bottom: 2.5rem; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: 4px solid var(--card-bg);
+            box-shadow: 0 0 0 2px #e5e7eb;
+        }
+        
+        html[dir="rtl"] .timeline-item::before { right: -35px; }
+        html[dir="ltr"] .timeline-item::before { left: -35px; }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        /* الاهتمامات */
+        .tags-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tag {
+            background-color: #f3f4f6;
+            color: var(--text-light);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border: 1px solid #e5e7eb;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- زر تبديل اللغة -->
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <span class="ar">English Version</span>
+        <span class="en">النسخة العربية</span>
+    </button>
+
+    <div class="layout">
+        <!-- الشريط الجانبي -->
+        <aside class="sidebar">
+            <div class="profile-img"><img height="150" src="2.jpg" /></div>
+            
+            <h1 class="ar">بلال بولقرون</h1>
+            <h1 class="en">Bilal Boulegroun <!-- --></h1>
+            
+            <h2 class="ar">أستاذ إعلام آلي ومطور برمجيات <!-- --></h2>
+            <h2 class="en">Computer Science Teacher & Developer <!-- --></h2>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📍</span>
+                    <div>
+                        <strong class="ar">الإقامة:</strong><span class="ar"> عنابة، الجزائر <!-- --></span>
+                        <strong class="en">Location:</strong><span class="en"> Annaba, Algeria <!-- --></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span>🎓</span>
+                    <div>
+                        <strong class="ar">المؤهل:</strong><span class="ar"> ماستر في الإعلام الآلي الصناعي <!-- --></span>
+                        <strong class="en">Degree:</strong><span class="en"> Master's in Industrial Computer Science <!-- --></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span>🌐</span>
+                    <div>
+                        <strong class="ar">اللغات:</strong><span class="ar"> العربية (أم)، الإنجليزية والفرنسية (متوسط) <!-- --></span>
+                        <strong class="en">Languages:</strong><span class="en"> Arabic (Native), English & French (Intermediate) <!-- --></span>
+                    </div>
+                </div>
+                <div class="contact-item" style="margin-top: 1.5rem;">
+                    <span>🔗</span>
+                    <a href="https://github.com/YOUR_USERNAME" style="color: #93c5fd; text-decoration: none; font-weight: bold;">
+                        <span class="ar">حساب GitHub</span>
+                        <span class="en">GitHub Profile</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            
+            <!-- نبذة شخصية -->
+            <section class="card">
+                <h3 class="section-title">
+                    <span class="ar">نبذة شخصية</span>
+                    <span class="en">About Me</span>
+                </h3>
+                <p class="text-block ar">
+                    أجمع بين شغف التدريس كأستاذ لمادة الإعلام الآلي في الطور المتوسط <!-- -->، وبين التحدي التقني كمطور برمجيات. أجد متعتي وإلهامي في ساعات الليل الهادئة للعمل على مشاريع برمجية معقدة وأفكار غير تقليدية تتطلب حلولاً مبتكرة <!-- -->.
+                </p>
+                <p class="text-block en">
+                    I combine my passion for teaching as a middle school Computer Science teacher with the technical challenges of software development. I find inspiration during quiet night hours, working on complex programming projects and unconventional ideas that require innovative solutions.
+                </p>
+                <p class="text-block ar">
+                    أقدر عالياً العلاقات الإنسانية والتعايش السلمي وتجنب المشاكل <!-- -->. أؤمن بأهمية المرونة في العمل الجماعي؛ حيث أستطيع تكييف دوري ومهامي داخل الفريق بحسب المتطلبات، تماماً كما أفعل في الألعاب الاستراتيجية والجماعية التي أمارسها <!-- -->.
+                </p>
+                <p class="text-block en">
+                    I highly value human relationships, peaceful coexistence, and avoiding conflicts. I believe in flexibility in teamwork, seamlessly adapting my role and tasks based on team requirements and dynamics, much like I do in the strategic multiplayer games I enjoy.
+                </p>
+            </section>
+
+            <!-- المشاريع -->
+            <section class="card">
+                <h3 class="section-title">
+                    <span class="ar">أبرز المشاريع</span>
+                    <span class="en">Featured Projects</span>
+                </h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 class="timeline-title">
+                            <span class="ar">منصة الخدمات الاجتماعية لولاية بسكرة <!-- --></span>
+                            <span class="en">Social Services Platform for Biskra</span>
+                        </h4>
+                        <p class="text-block ar" style="margin-bottom: 0;">
+                            مشروع رقمي ضخم قيد التطوير يهدف إلى تسهيل الوصول إلى الخدمات الاجتماعية. يتضمن المشروع بناء "سوق إلكتروني" (Marketplace) متكامل مخصص لاقتناء وتسويق الأجهزة الكهرومنزلية <!-- -->.
+                        </p>
+                        <p class="text-block en" style="margin-bottom: 0;">
+                            A large-scale digital platform currently under development aimed at facilitating access to social services. The project features an integrated online marketplace dedicated to purchasing and marketing home appliances.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- التعليم -->
+            <section class="card">
+                <h3 class="section-title">
+                    <span class="ar">المسار الأكاديمي</span>
+                    <span class="en">Academic Background</span>
+                </h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 class="timeline-title">
+                            <span class="ar">ماستر في الإعلام الآلي الصناعي <!-- --></span>
+                            <span class="en">Master's in Industrial Computer Science</span>
+                        </h4>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 class="timeline-title">
+                            <span class="ar">ليسانس في علوم الحاسوب <!-- --></span>
+                            <span class="en">Bachelor's Degree in Computer Science</span>
+                        </h4>
+                    </div>
+                </div>
+            </section>
+
+            <!-- الاهتمامات -->
+            <section class="card">
+                <h3 class="section-title">
+                    <span class="ar">الاهتمامات والهوايات</span>
+                    <span class="en">Interests & Hobbies</span>
+                </h3>
+                <p class="text-block ar">لإعادة شحن طاقتي، ألجأ دائماً إلى العائلة، رياضة المشي، وقضاء الوقت بجوار البحر <!-- -->. كما أستمتع بالأنشطة التالية:</p>
+                <p class="text-block en">To relax and recharge, I turn to my family, walking, and spending time by the sea. I also enjoy:</p>
+                
+                <div class="tags-grid">
+                    <span class="tag">
+                        <span class="ar">السباحة في البحر <!-- --></span>
+                        <span class="en">Sea Swimming</span>
+                    </span>
+                    <span class="tag">
+                        <span class="ar">كرة القدم والسلة <!-- --></span>
+                        <span class="en">Football & Basketball</span>
+                    </span>
+                    <span class="tag">War and Order <!-- --></span>
+                    <span class="tag">PUBG (Mobile & Steam) <!-- --></span>
+                    <span class="tag">FC 24 <!-- --></span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- سكربت تغيير اللغة -->
+    <script>
+        function toggleLanguage() {
+            const htmlElement = document.documentElement;
+            const currentDir = htmlElement.getAttribute('dir');
+            
+            if (currentDir === 'rtl') {
+                // التبديل للإنجليزية
+                htmlElement.setAttribute('dir', 'ltr');
+                htmlElement.setAttribute('lang', 'en');
+            } else {
+                // التبديل للعربية
+                htmlElement.setAttribute('dir', 'rtl');
+                htmlElement.setAttribute('lang', 'ar');
+            }
+        }
+    </script>
+</body>
+</html>
