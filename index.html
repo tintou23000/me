@@ -1,411 +1,703 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بلال بولقرون | Bilal Boulegroun</title>
-    <!-- خطوط جوجل: Cairo للعربية و Poppins للإنجليزية -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #f3f4f6;
-            --text-main: #1f2937;
-            --text-light: #4b5563;
-            --accent-color: #2563eb; /* أزرق احترافي */
-            --sidebar-bg: #111827;
-            --sidebar-text: #f9fafb;
-            --card-bg: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* إعدادات الخطوط حسب اللغة */
-        html[dir="rtl"] * {
-            font-family: 'Cairo', sans-serif;
-        }
-        
-        html[dir="ltr"] * {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* إخفاء وإظهار النصوص حسب اتجاه الصفحة */
-        html[dir="rtl"] .en { display: none !important; }
-        html[dir="ltr"] .ar { display: none !important; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.7;
-            transition: all 0.3s ease;
-        }
-
-        /* زر تغيير اللغة */
-        .lang-toggle {
-            position: fixed;
-            top: 20px;
-            z-index: 1000;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-        
-        /* تحديد مكان الزر حسب اللغة */
-        html[dir="rtl"] .lang-toggle { left: 20px; }
-        html[dir="ltr"] .lang-toggle { right: 20px; }
-
-        .lang-toggle:hover {
-            transform: scale(1.05);
-        }
-
-        /* تخطيط الصفحة */
-        .layout {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-
-        @media (min-width: 992px) {
-            .layout { flex-direction: row; }
-            html[dir="rtl"] .sidebar { right: 0; }
-            html[dir="ltr"] .sidebar { left: 0; }
-            
-            html[dir="rtl"] .main-content { margin-right: 35%; margin-left: 0; }
-            html[dir="ltr"] .main-content { margin-left: 35%; margin-right: 0; }
-        }
-
-        /* الشريط الجانبي */
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 4rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-
-        @media (min-width: 992px) {
-            .sidebar {
-                width: 35%;
-                position: fixed;
-                height: 100vh;
-                top: 0;
-            }
-        }
-
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background-color: var(--sidebar-text);
-            border: 4px solid var(--accent-color);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--sidebar-bg);
-            font-weight: 800;
-        }
-
-        .sidebar h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-        }
-
-        .sidebar h2 {
-            font-size: 1.1rem;
-            color: #93c5fd;
-            font-weight: 400;
-            margin-bottom: 2rem;
-        }
-
-        .contact-info {
-            width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 2rem;
-            text-align: start;
-        }
-
-        .contact-item {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-
-        /* المحتوى الرئيسي */
-        .main-content {
-            padding: 4rem 1.5rem;
-            flex: 1;
-        }
-
-        @media (min-width: 992px) {
-            .main-content { padding: 5rem 4rem; }
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            color: var(--text-main);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            width: 50%;
-            height: 4px;
-            background-color: var(--accent-color);
-            border-radius: 2px;
-        }
-        
-        html[dir="rtl"] .section-title::after { right: 0; }
-        html[dir="ltr"] .section-title::after { left: 0; }
-
-        .card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            margin-bottom: 3rem;
-        }
-
-        .text-block {
-            margin-bottom: 1.5rem;
-            color: var(--text-light);
-            font-size: 1.05rem;
-        }
-
-        /* الخط الزمني */
-        .timeline {
-            position: relative;
-            margin-top: 2rem;
-        }
-        
-        html[dir="rtl"] .timeline { border-right: 2px solid #e5e7eb; padding-right: 2rem; }
-        html[dir="ltr"] .timeline { border-left: 2px solid #e5e7eb; padding-left: 2rem; }
-
-        .timeline-item { position: relative; margin-bottom: 2.5rem; }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-            border: 4px solid var(--card-bg);
-            box-shadow: 0 0 0 2px #e5e7eb;
-        }
-        
-        html[dir="rtl"] .timeline-item::before { right: -35px; }
-        html[dir="ltr"] .timeline-item::before { left: -35px; }
-
-        .timeline-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
-
-        /* الاهتمامات */
-        .tags-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .tag {
-            background-color: #f3f4f6;
-            color: var(--text-light);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            border: 1px solid #e5e7eb;
-            font-weight: 600;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>جداول التوقيت الأسبوعي لجميع أساتذة المتوسطة</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 10px;
+      background-color: #f4f6f9;
+      color: #2d3748;
+    }
+    .no-print-bar {
+      background: #1a365d;
+      color: white;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .btn-print {
+      background: #2b6cb0;
+      color: white;
+      border: none;
+      padding: 9px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .page-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .schedule-card {
+      background: white;
+      padding: 14px 18px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      page-break-after: always;
+      page-break-inside: avoid;
+    }
+    .header-table {
+      width: 100%;
+      margin-bottom: 8px;
+      border-bottom: 2px solid #2d3748;
+      padding-bottom: 6px;
+    }
+    .header-table td {
+      border: none;
+      padding: 2px;
+      vertical-align: middle;
+    }
+    .doc-main-title {
+      text-align: center;
+      font-size: 17px;
+      font-weight: bold;
+      color: #1a365d;
+    }
+    .teacher-badge {
+      display: inline-block;
+      background: #ebf8ff;
+      color: #2b6cb0;
+      border: 1px solid #bee3f8;
+      padding: 3px 12px;
+      border-radius: 15px;
+      font-size: 14.5px;
+      font-weight: bold;
+    }
+    table.schedule {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 11px;
+      margin-top: 5px;
+    }
+    table.schedule th, table.schedule td {
+      border: 1px solid #718096;
+      padding: 4px 2px;
+      height: 46px;
+    }
+    table.schedule th {
+      background-color: #edf2f7;
+      color: #1a202c;
+      font-weight: 700;
+    }
+    .col-day {
+      width: 11%;
+      font-weight: bold;
+      background-color: #f7fafc;
+    }
+    .subj-main {
+      font-weight: bold;
+      font-size: 11.5px;
+      color: #1a202c;
+    }
+    .subj-sub {
+      font-size: 10px;
+      color: #4a5568;
+      margin-top: 1px;
+    }
+    .tag-td {
+      background-color: #e6fffa;
+      color: #234e52;
+      border: 1px dashed #38b2ac;
+      border-radius: 3px;
+      padding: 1px 3px;
+      font-size: 9px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .tag-lab {
+      background-color: #feebc8;
+      color: #744210;
+      border: 1px dashed #dd6b20;
+      border-radius: 3px;
+      padding: 1px 3px;
+      font-size: 9px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .tag-pedagogy {
+      background-color: #fed7d7;
+      color: #742a2a;
+      font-weight: bold;
+      font-size: 11px;
+    }
+    .tag-remedial {
+      background-color: #fefcbf;
+      color: #744210;
+      font-weight: bold;
+      border: 1px solid #d69e2e;
+      border-radius: 3px;
+      padding: 2px 4px;
+      display: inline-block;
+    }
+    .empty-slot {
+      background-color: #f7fafc;
+      color: #a0aec0;
+      font-style: italic;
+    }
+    .closed-slot {
+      background-color: #edf2f7;
+      color: #718096;
+      font-weight: bold;
+    }
+    .footer-note {
+      margin-top: 6px;
+      font-size: 10px;
+      color: #718096;
+      display: flex;
+      justify-content: space-between;
+    }
+    @media print {
+      body {
+        background-color: white;
+        padding: 0;
+      }
+      .no-print-bar {
+        display: none;
+      }
+      .schedule-card {
+        border: 1px solid #4a5568;
+        padding: 8px 12px;
+        margin-bottom: 0;
+        height: 98vh;
+      }
+      @page {
+        size: A4 landscape;
+        margin: 8mm;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- زر تبديل اللغة -->
-    <button class="lang-toggle" onclick="toggleLanguage()">
-        <span class="ar">English Version</span>
-        <span class="en">النسخة العربية</span>
-    </button>
+<div class="no-print-bar">
+  <div>
+    <strong>جداول التوقيت الأسبوعي الفردية لجميع الأساتذة</strong> - متوسطة جزائرية
+  </div>
+  <button class="btn-print" onclick="window.print()">طباعة كافة جداول الأساتذة (Ctrl + P)</button>
+</div>
 
-    <div class="layout">
-        <!-- الشريط الجانبي -->
-        <aside class="sidebar">
-            <div class="profile-img"><img height="150" src="https://drive.google.com/file/d/1oL6XBSJS1VFAxaOLrDtNsDEie6rpkJjW/view?usp=sharing" /></div>
-            
-            <h1 class="ar">بلال بولقرون</h1>
-            <h1 class="en">Bilal Boulegroun <!-- --></h1>
-            
-            <h2 class="ar">أستاذ إعلام آلي ومطور برمجيات <!-- --></h2>
-            <h2 class="en">Computer Science Teacher & Developer <!-- --></h2>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span>📍</span>
-                    <div>
-                        <strong class="ar">الإقامة:</strong><span class="ar"> عنابة، الجزائر <!-- --></span>
-                        <strong class="en">Location:</strong><span class="en"> Annaba, Algeria <!-- --></span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <span>🎓</span>
-                    <div>
-                        <strong class="ar">المؤهل:</strong><span class="ar"> ماستر في الإعلام الآلي الصناعي <!-- --></span>
-                        <strong class="en">Degree:</strong><span class="en"> Master's in Industrial Computer Science <!-- --></span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <span>🌐</span>
-                    <div>
-                        <strong class="ar">اللغات:</strong><span class="ar"> العربية (أم)، الإنجليزية والفرنسية (متوسط) <!-- --></span>
-                        <strong class="en">Languages:</strong><span class="en"> Arabic (Native), English & French (Intermediate) <!-- --></span>
-                    </div>
-                </div>
-                <div class="contact-item" style="margin-top: 1.5rem;">
-                    <span>🔗</span>
-                    <a href="https://tintou23000.github.io/me/" style="color: #93c5fd; text-decoration: none; font-weight: bold;">
-                        <span class="ar">حساب GitHub</span>
-                        <span class="en">GitHub Profile</span>
-                    </a>
-                </div>
-            </div>
-        </aside>
+<div class="page-container">
 
-        <!-- المحتوى الرئيسي -->
-        <main class="main-content">
-            
-            <!-- نبذة شخصية -->
-            <section class="card">
-                <h3 class="section-title">
-                    <span class="ar">نبذة شخصية</span>
-                    <span class="en">About Me</span>
-                </h3>
-                <p class="text-block ar">
-                    أجمع بين شغف التدريس كأستاذ لمادة الإعلام الآلي في الطور المتوسط <!-- -->، وبين التحدي التقني كمطور برمجيات. أجد متعتي وإلهامي في ساعات الليل الهادئة للعمل على مشاريع برمجية معقدة وأفكار غير تقليدية تتطلب حلولاً مبتكرة <!-- -->.
-                </p>
-                <p class="text-block en">
-                    I combine my passion for teaching as a middle school Computer Science teacher with the technical challenges of software development. I find inspiration during quiet night hours, working on complex programming projects and unconventional ideas that require innovative solutions.
-                </p>
-                <p class="text-block ar">
-                    أقدر عالياً العلاقات الإنسانية والتعايش السلمي وتجنب المشاكل <!-- -->. أؤمن بأهمية المرونة في العمل الجماعي؛ حيث أستطيع تكييف دوري ومهامي داخل الفريق بحسب المتطلبات، تماماً كما أفعل في الألعاب الاستراتيجية والجماعية التي أمارسها <!-- -->.
-                </p>
-                <p class="text-block en">
-                    I highly value human relationships, peaceful coexistence, and avoiding conflicts. I believe in flexibility in teamwork, seamlessly adapting my role and tasks based on team requirements and dynamics, much like I do in the strategic multiplayer games I enjoy.
-                </p>
-            </section>
+  <!-- ==================== أساتذة اللغة العربية ==================== -->
 
-            <!-- المشاريع -->
-            <section class="card">
-                <h3 class="section-title">
-                    <span class="ar">أبرز المشاريع</span>
-                    <span class="en">Featured Projects</span>
-                </h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h4 class="timeline-title">
-                            <span class="ar">منصة الخدمات الاجتماعية لولاية بسكرة <!-- --></span>
-                            <span class="en">Social Services Platform for Biskra</span>
-                        </h4>
-                        <p class="text-block ar" style="margin-bottom: 0;">
-                            مشروع رقمي ضخم قيد التطوير يهدف إلى تسهيل الوصول إلى الخدمات الاجتماعية. يتضمن المشروع بناء "سوق إلكتروني" (Marketplace) متكامل مخصص لاقتناء وتسويق الأجهزة الكهرومنزلية <!-- -->.
-                        </p>
-                        <p class="text-block en" style="margin-bottom: 0;">
-                            A large-scale digital platform currently under development aimed at facilitating access to social services. The project features an integrated online marketplace dedicated to purchasing and marketing home appliances.
-                        </p>
-                    </div>
-                </div>
-            </section>
+  <!-- أستاذ عربية 1 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ اللغة العربية 01</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>4م1 ، 4م2</b><br>نصف اليوم البيداغوجي: <b>الإثنين صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td colspan="2"><span class="tag-td">4م1 تفويج أ.م (ساعتان)</span><br>المكتبة (بالتزامن مع ر.1)</td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td><span class="tag-remedial">استدراك مجمع (4م1 + 4م2)</span></td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td colspan="2"><span class="tag-td">4م2 تفويج أ.م (ساعتان)</span><br>المكتبة (بالتزامن مع ر.1)</td>
+          <td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 12 ساعة تدريس + 1 ساعة استدراك = 13 ساعة</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
 
-            <!-- التعليم -->
-            <section class="card">
-                <h3 class="section-title">
-                    <span class="ar">المسار الأكاديمي</span>
-                    <span class="en">Academic Background</span>
-                </h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h4 class="timeline-title">
-                            <span class="ar">ماستر في الإعلام الآلي الصناعي <!-- --></span>
-                            <span class="en">Master's in Industrial Computer Science</span>
-                        </h4>
-                    </div>
-                    <div class="timeline-item">
-                        <h4 class="timeline-title">
-                            <span class="ar">ليسانس في علوم الحاسوب <!-- --></span>
-                            <span class="en">Bachelor's Degree in Computer Science</span>
-                        </h4>
-                    </div>
-                </div>
-            </section>
+  <!-- أستاذ عربية 4 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ اللغة العربية 04</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>3م1 ، 2م1 ، 2م2</b><br>نصف اليوم البيداغوجي: <b>الإثنين صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><span class="tag-td">2م2 تفويج أ.م</span><br>المكتبة</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td><div class="subj-main">3م1 (نظري)</div><div class="subj-sub">حجرة 06</div></td>
+          <td><div class="subj-main">3م1 (نظري)</div><div class="subj-sub">حجرة 06</div></td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">2م2 (نظري)</div><div class="subj-sub">حجرة 11</div></td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td><div class="subj-main">3م1 (نظري)</div><div class="subj-sub">حجرة 06</div></td>
+          <td><span class="tag-td">3م1 تفويج أ.م</span><br>حجرة 06</td>
+          <td><span class="tag-td">2م1 تفويج أ.م</span><br>حجرة 10</td>
+          <td><div class="subj-main">2م2 (نظري)</div><div class="subj-sub">حجرة 11</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td><span class="tag-remedial">استدراك مجمع (3م1+2م1+2م2)</span></td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">3م1 (نظري)</div><div class="subj-sub">حجرة 06</div></td>
+          <td><div class="subj-main">2م2 (نظري)</div><div class="subj-sub">حجرة 11</div></td>
+          <td><div class="subj-main">2م2 (نظري)</div><div class="subj-sub">حجرة 11</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 17 ساعة تدريس + 1 ساعة استدراك = 18 ساعة</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
 
-            <!-- الاهتمامات -->
-            <section class="card">
-                <h3 class="section-title">
-                    <span class="ar">الاهتمامات والهوايات</span>
-                    <span class="en">Interests & Hobbies</span>
-                </h3>
-                <p class="text-block ar">لإعادة شحن طاقتي، ألجأ دائماً إلى العائلة، رياضة المشي، وقضاء الوقت بجوار البحر <!-- -->. كما أستمتع بالأنشطة التالية:</p>
-                <p class="text-block en">To relax and recharge, I turn to my family, walking, and spending time by the sea. I also enjoy:</p>
-                
-                <div class="tags-grid">
-                    <span class="tag">
-                        <span class="ar">السباحة في البحر <!-- --></span>
-                        <span class="en">Sea Swimming</span>
-                    </span>
-                    <span class="tag">
-                        <span class="ar">كرة القدم والسلة <!-- --></span>
-                        <span class="en">Football & Basketball</span>
-                    </span>
-                    <span class="tag">War and Order <!-- --></span>
-                    <span class="tag">PUBG (Mobile & Steam) <!-- --></span>
-                    <span class="tag">FC 24 <!-- --></span>
-                </div>
-            </section>
+  <!-- ==================== أساتذة الرياضيات ==================== -->
 
-        </main>
-    </div>
+  <!-- أستاذ رياضيات 1 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ الرياضيات 01</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>4م1 ، 4م2 ، 2م3</b><br>نصف اليوم البيداغوجي: <b>الخميس صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td><div class="subj-main">2م3 (نظري)</div><div class="subj-sub">حجرة 12</div></td>
+          <td><div class="subj-main">2م3 (نظري)</div><div class="subj-sub">حجرة 12</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td><div class="subj-main">2م3 (نظري)</div><div class="subj-sub">حجرة 12</div></td>
+          <td><div class="subj-main">2م3 (نظري)</div><div class="subj-sub">حجرة 12</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td colspan="2"><span class="tag-td">4م1 تفويج أ.م (ساعتان)</span><br>حجرة 01 (بالتزامن مع ع.1)</td>
+          <td><span class="tag-td">2م3 تفويج أ.م</span><br>المكتبة</td>
+          <td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td><span class="tag-remedial">استدراك مجمع (4م1+4م2+2م3)</span></td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 17 ساعة تدريس + 1 ساعة استدراك = 18 ساعة</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
 
-    <!-- سكربت تغيير اللغة -->
-    <script>
-        function toggleLanguage() {
-            const htmlElement = document.documentElement;
-            const currentDir = htmlElement.getAttribute('dir');
-            
-            if (currentDir === 'rtl') {
-                // التبديل للإنجليزية
-                htmlElement.setAttribute('dir', 'ltr');
-                htmlElement.setAttribute('lang', 'en');
-            } else {
-                // التبديل للعربية
-                htmlElement.setAttribute('dir', 'rtl');
-                htmlElement.setAttribute('lang', 'ar');
-            }
-        }
-    </script>
+  <!-- أستاذ رياضيات 3 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ الرياضيات 03</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>4م5 ، 2م1 ، 2م2</b><br>نصف اليوم البيداغوجي: <b>الخميس صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">2م2 (نظري)</div><div class="subj-sub">حجرة 11</div></td>
+          <td><div class="subj-main">2م2 (نظري)</div><div class="subj-sub">حجرة 11</div></td>
+          <td><div class="subj-main">4م5 (نظري)</div><div class="subj-sub">حجرة 05</div></td>
+          <td><div class="subj-main">4م5 (نظري)</div><div class="subj-sub">حجرة 05</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td><div class="subj-main">4م5 (نظري)</div><div class="subj-sub">حجرة 05</div></td>
+          <td><div class="subj-main">4م5 (نظري)</div><div class="subj-sub">حجرة 05</div></td>
+          <td><span class="tag-td">2م2 تفويج أ.م</span><br>حجرة 11</td>
+          <td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td colspan="2"><span class="tag-td">4م5 تفويج أ.م (ساعتان)</span><br>حجرة 05 (بالتزامن مع ع.3)</td>
+          <td><span class="tag-td">2م1 تفويج أ.م</span><br>المكتبة</td>
+          <td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td><span class="tag-remedial">استدراك مجمع (4م5+2م1+2م2)</span></td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 17 ساعة تدريس + 1 ساعة استدراك = 18 ساعة</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
+
+  <!-- ==================== العلوم الفيزيائية والطبيعية ==================== -->
+
+  <!-- أستاذ علوم فيزيائية 1 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ العلوم الفيزيائية 01</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>4م1 ، 4م2 ، 4م3 ، 2م1</b><br>نصف اليوم البيداغوجي: <b>الأربعاء صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م1 (نظري)</div><div class="subj-sub">حجرة 01</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td colspan="2"><span class="tag-lab">4م1 تفويج مخبري (ساعتان)</span><br>حجرة 01 (بالتزامن مع ع.ط.1)</td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td><div class="subj-main">4م2 (نظري)</div><div class="subj-sub">حجرة 02</div></td>
+          <td colspan="2"><span class="tag-lab">4م2 تفويج مخبري (ساعتان)</span><br>حجرة 02 (بالتزامن مع ع.ط.1)</td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><div class="subj-main">4م3 (نظري)</div><div class="subj-sub">حجرة 03</div></td>
+          <td><div class="subj-main">4م3 (نظري)</div><div class="subj-sub">حجرة 03</div></td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="2"><span class="tag-lab">2م1 تفويج مخبري (ساعتان)</span><br>حجرة 10 (بالتزامن مع ع.ط.1)</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 15 ساعة تدريس أسبوعياً</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
+
+  <!-- أستاذ علوم طبيعية 1 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ علوم الطبيعة والحياة 01</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>4م1 ، 4م2 ، 4م3 ، 2م1</b><br>نصف اليوم البيداغوجي: <b>الأربعاء صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td colspan="2"><span class="tag-lab">4م1 تفويج مخبري (ساعتان)</span><br>مخبر العلوم 1 (بالتزامن مع ف.1)</td>
+          <td colspan="2"><span class="tag-lab">4م3 تفويج مخبري (ساعتان)</span><br>مخبر العلوم 1 (بالتزامن مع ف.1)</td>
+          <td colspan="2"><span class="tag-lab">4م2 تفويج مخبري (ساعتان)</span><br>مخبر العلوم 1 (بالتزامن مع ف.1)</td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><div class="subj-main">2م1 (نظري)</div><div class="subj-sub">حجرة 10</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td><div class="subj-main">4م3 (نظري)</div><div class="subj-sub">حجرة 03</div></td>
+          <td><div class="subj-main">4م3 (نظري)</div><div class="subj-sub">حجرة 03</div></td>
+          <td colspan="2"><span class="tag-lab">2م1 تفويج مخبري (ساعتان)</span><br>مخبر العلوم 1 (بالتزامن مع ف.1)</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 15 ساعة تدريس أسبوعياً</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
+
+  <!-- ==================== التربية الإسلامية والبدنية ==================== -->
+
+  <!-- أستاذ تربية إسلامية 1 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ التربية الإسلامية 01</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>جميع الأقسام الـ 18 بالمؤسسة</b><br>نصف اليوم البيداغوجي: <b>الإثنين صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td><div class="subj-main">4م1</div><div class="subj-sub">حجرة 01</div></td>
+          <td><div class="subj-main">4م2</div><div class="subj-sub">حجرة 02</div></td>
+          <td><div class="subj-main">4م3</div><div class="subj-sub">حجرة 03</div></td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td><div class="subj-main">4م4</div><div class="subj-sub">حجرة 04</div></td>
+          <td><div class="subj-main">4م5</div><div class="subj-sub">حجرة 05</div></td>
+          <td><div class="subj-main">3م1</div><div class="subj-sub">حجرة 06</div></td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td><div class="subj-main">3م2</div><div class="subj-sub">حجرة 07</div></td>
+          <td><div class="subj-main">3م3</div><div class="subj-sub">حجرة 08</div></td>
+          <td><div class="subj-main">3م4</div><div class="subj-sub">حجرة 09</div></td>
+          <td><div class="subj-main">2م1</div><div class="subj-sub">حجرة 10</div></td>
+          <td><div class="subj-main">2م2</div><div class="subj-sub">حجرة 11</div></td>
+          <td><div class="subj-main">2م3</div><div class="subj-sub">حجرة 12</div></td>
+          <td><div class="subj-main">2م4</div><div class="subj-sub">حجرة 13</div></td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td><div class="subj-main">1م1</div><div class="subj-sub">حجرة 14</div></td>
+          <td><div class="subj-main">1م2</div><div class="subj-sub">حجرة 15</div></td>
+          <td><div class="subj-main">1م3</div><div class="subj-sub">حجرة 16</div></td>
+          <td><div class="subj-main">1م4</div><div class="subj-sub">حجرة 17</div></td>
+          <td><div class="subj-main">1م5</div><div class="subj-sub">حجرة 18</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي الإجمالي: 18 ساعة تدريس (18 قسماً × 1 ساعة)</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
+
+  <!-- أستاذ رياضة 1 -->
+  <div class="schedule-card">
+    <table class="header-table">
+      <tr>
+        <td style="width:33%;">الجمهورية الجزائرية الديمقراطية الشعبية<br>وزارة التربية الوطنية</td>
+        <td style="width:34%;" class="doc-main-title">جدول توقيت أستاذ<br><span class="teacher-badge">أستاذ التربية البدنية 01</span></td>
+        <td style="width:33%; text-align:left;">الأقسام المسندة: <b>4م (1 إلى 5) ، 2م (1 إلى 4)</b><br>نصف اليوم البيداغوجي: <b>الثلاثاء صباحاً</b></td>
+      </tr>
+    </table>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th rowspan="2" class="col-day">اليوم</th>
+          <th colspan="4">الفترة الصباحية (08:00 - 12:00)</th>
+          <th colspan="3">الفترة المسائية (13:30 - 16:30)</th>
+        </tr>
+        <tr>
+          <th>08:00 - 09:00</th><th>09:00 - 10:00</th><th>10:00 - 11:00</th><th>11:00 - 12:00</th>
+          <th>13:30 - 14:30</th><th>14:30 - 15:30</th><th>15:30 - 16:30</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-day">الأحد</td>
+          <td colspan="2"><div class="subj-main">2م2 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td colspan="2"><div class="subj-main">2م1 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td colspan="2"><div class="subj-main">2م3 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الإثنين</td>
+          <td colspan="2"><div class="subj-main">4م4 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td colspan="2"><div class="subj-main">4م5 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td colspan="2"><div class="subj-main">2م4 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الثلاثاء</td>
+          <td colspan="4" class="tag-pedagogy">نصف يوم بيداغوجي (تنسيق وندوات تربوية)</td>
+          <td colspan="3" class="closed-slot">عطلة رسمية (مساء الثلاثاء)</td>
+        </tr>
+        <tr>
+          <td class="col-day">الأربعاء</td>
+          <td colspan="2"><div class="subj-main">4م3 (الملعب)</div><div class="subj-sub">تربية بدنية</div></td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td colspan="2"><div class="subj-main">4م1 + 4م2 (الملعب)</div><div class="subj-sub">تربية بدنية (دمج بالملعب)</div></td>
+          <td class="empty-slot">شاغر</td>
+        </tr>
+        <tr>
+          <td class="col-day">الخميس</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+          <td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td><td class="empty-slot">شاغر</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer-note"><span>الحجم الساعي: 18 ساعة تدريس (الملعب)</span><span>إمضاء الأستاذ(ة) / المدير</span></div>
+  </div>
+
+</div>
+
 </body>
 </html>
